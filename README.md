@@ -36,3 +36,4 @@ yarn deploy
 - [Verifying contracts on etherscan](https://www.npmjs.com/package/@nomiclabs/hardhat-etherscan)
 - [Get Alchemy Key](https://www.alchemyapi.io/)
 - [Get Etherscan key](https://etherscan.io/register)
+# NFT-Shooter-Game
