@@ -1,18 +1,16 @@
-const Greeter = artifacts.require("Greeter");
+const Token = artifacts.require("Token");
+const Game = artifacts.require("Game");
+const Marketplace = artifacts.require("Marketplace");
 
-async function main() {
-  const greeter = await Greeter.new("Hello, Hardhat!");
-  Greeter.setAsDeployed(greeter);
-
-  console.log("Greeter deployed to:", greeter.address);
-
-  const greeting = await greeter.greet();
-  console.log("Current Greeting:", greeting);
-}
-
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+module.exports = async function (deployer) {
+  await deployer.deploy(Token);
+  await deployer.deploy(Game, Token.address);
+  await deployer.deploy(Marketplace, Marketplace.address);
+  const token = await Token.deployed();
+  const game = await Game.deployed();
+  const marketplace = await Marketplace.deployed();
+  await game.register();
+  const minterRole = await token.MINTER_ROLE();
+  await token.grantRole(minterRole, game.address);
+  const isRegistered = await game.registered(accounts(1));
+};
